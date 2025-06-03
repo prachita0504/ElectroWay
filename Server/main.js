@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://vercel.com/prachita-singhs-projects/electro-way-yi17/8YcTEEm7bVZrP3vcWH4nHysRFTA2", 
+    origin: "https://electro-way-yi17.vercel.app/", 
     credentials: true,
   })
 );
