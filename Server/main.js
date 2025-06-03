@@ -11,15 +11,15 @@ const SavedStation = require("./module/SavedStation");
 const app = express();
 app.use(express.json());
 
-/* ---------- CORS ---------- */
+
 app.use(
   cors({
-    origin: "http://localhost:5174", // frontend URL
+    origin: "https://vercel.com/prachita-singhs-projects/electro-way-yi17/8YcTEEm7bVZrP3vcWH4nHysRFTA2", 
     credentials: true,
   })
 );
 
-/* ---------- MongoDB ---------- */
+
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -31,14 +31,14 @@ mongoose
     process.exit(1);
   });
 
-/* ---------- JWT ---------- */
+
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
   console.error("JWT_SECRET not defined in .env");
   process.exit(1);
 }
 
-/* ---------- Signup ---------- */
+
 app.post("/signup", async (req, res) => {
   const { email, username, password, confirmPassword } = req.body;
   if (!email || !username || !password || !confirmPassword) {
@@ -67,7 +67,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-/* ---------- Login ---------- */
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
@@ -86,7 +86,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-/* ---------- Auth middleware ---------- */
 function auth(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: "No token provided" });
@@ -103,9 +102,7 @@ function auth(req, res, next) {
   }
 }
 
-// … all your signup / login code stays the same …
 
-/* ---------- GET saved stations ---------- */
 app.get("/savedStations", auth, async (req, res) => {
   try {
     const stations = await SavedStation.find({ userId: req.userId });
@@ -116,7 +113,6 @@ app.get("/savedStations", auth, async (req, res) => {
   }
 });
 
-/* ---------- POST save station (lat & lon required) ---------- */
 app.post("/savedStations", auth, async (req, res) => {
   const { stationId, lat, lon, tags, note } = req.body;
   if (!stationId || lat == null || lon == null)
@@ -147,7 +143,6 @@ app.post("/savedStations", auth, async (req, res) => {
 });
 
 
-/* ---------- PATCH update note ---------- */
 app.patch("/savedStations/:stationId", auth, async (req, res) => {
   const { stationId } = req.params;
   const { note } = req.body;
@@ -168,7 +163,6 @@ app.patch("/savedStations/:stationId", auth, async (req, res) => {
   }
 });
 
-/* ---------- DELETE saved station ---------- */
 app.delete("/savedStations/:stationId", auth, async (req, res) => {
   const { stationId } = req.params;
   console.log(`Delete request for userId: ${req.userId}, stationId: ${stationId}`);
@@ -187,6 +181,5 @@ app.delete("/savedStations/:stationId", auth, async (req, res) => {
   }
 });
 
-/* ---------- Start server ---------- */
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
