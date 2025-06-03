@@ -33,20 +33,7 @@ const Home = () => {
             >
               ElectroWay
             </Link>
-            <nav className="hidden md:flex space-x-10 text-gray-300">
-              <Link to="/" className="hover:text-green-400 transition">
-                Home
-              </Link>
-              <Link to="/stations" className="hover:text-green-400 transition">
-                Stations
-              </Link>
-              <Link to="/about" className="hover:text-green-400 transition">
-                About
-              </Link>
-              <Link to="/contact" className="hover:text-green-400 transition">
-                Contact
-              </Link>
-            </nav>
+            
           </div>
         </header>
 
