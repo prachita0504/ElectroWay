@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://electro-way-z7od.vercel.app", 
+    origin: "https://electro-way-g4em.vercel.app", 
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
