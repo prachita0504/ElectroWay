@@ -15,7 +15,7 @@ const SavedStation = ({ onNavigate }) => {
       }
 
       try {
-        const res = await axios.get('http://localhost:3000/savedStations', {
+        const res = await axios.get('https://electrowaystationfinder.onrender.com/savedStations', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSavedStations(res.data);
@@ -37,7 +37,7 @@ const SavedStation = ({ onNavigate }) => {
     }
 
     try {
-      await axios.delete(`http://localhost:3000/savedStations/${stationId}`, {
+      await axios.delete(`https://electrowaystationfinder.onrender.com/savedStations/${stationId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

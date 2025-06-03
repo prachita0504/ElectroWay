@@ -3,17 +3,17 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet"
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Navbar from "./Navbar";
-import Listing from "./Listing";           // ← make sure the import path/case matches
+import Listing from "./Listing";
 
 const ORS_API_KEY =
-  "5b3ce3597851110001cf6248f5160cd9a6e046cab45b176900516896"; // replace with your own if needed
+  "5b3ce3597851110001cf6248f5160cd9a6e046cab45b176900516896"; 
 
 const Dashboard = () => {
   const [userPosition, setUserPosition] = useState(null);
   const [stations, setStations] = useState([]);
   const [route, setRoute] = useState([]);
 
-  /* ---------- get user location & nearby stations ---------- */
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
@@ -28,7 +28,7 @@ const Dashboard = () => {
     );
   }, []);
 
-  /* ---------- fetch stations from Overpass ---------- */
+
   const fetchChargingStations = async ([lat, lon]) => {
     const overpassUrl = "https://overpass-api.de/api/interpreter";
     const query = `
@@ -47,7 +47,6 @@ const Dashboard = () => {
     }
   };
 
-  /* ---------- fetch route from OpenRouteService ---------- */
   const fetchRoute = async ([sLat, sLon], [eLat, eLon]) => {
     const url =
       "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
@@ -56,7 +55,7 @@ const Dashboard = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: ORS_API_KEY, // OR 'Bearer <key>' if your key requires
+          Authorization: ORS_API_KEY, 
         },
         body: JSON.stringify({
           coordinates: [
@@ -81,7 +80,7 @@ const Dashboard = () => {
     if (userPosition) fetchRoute(userPosition, [station.lat, station.lon]);
   };
 
-  /* ---------- Leaflet icons ---------- */
+
   const userIcon = new L.Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/61/61168.png",
     iconSize: [25, 25],
@@ -98,13 +97,13 @@ const Dashboard = () => {
     shadowSize: [41, 41],
   });
 
-  /* ---------- render ---------- */
+
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Listing panel */}
+        {/* Listing  */}
         <div className="md:w-1/3 w-full bg-gray-100 overflow-y-auto">
           <Listing
             stations={stations}
@@ -113,7 +112,7 @@ const Dashboard = () => {
           />
         </div>
 
-        {/* Map panel */}
+        {/* Map  */}
         <div className="md:w-2/3 w-full">
           {userPosition ? (
             <MapContainer

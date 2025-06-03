@@ -5,18 +5,16 @@ import axios from 'axios';
 const Listing = ({ stations, onNavigate, userPosition }) => {
   const [showSaved, setShowSaved] = useState(false);
   const [savedStationIds, setSavedStationIds] = useState(new Set());
-  const [selectedId, setSelectedId] = useState(null);  // Track selected station for highlight
+  const [selectedId, setSelectedId] = useState(null);
 
-  /* ─────────────────────────────────────────────────────────────
-     Fetch saved-station IDs once (on mount) so we can flag them
-  ─────────────────────────────────────────────────────────────── */
+  
   useEffect(() => {
     const fetchSaved = async () => {
       const token = localStorage.getItem('token');
       if (!token) return;
 
       try {
-        const res = await axios.get('http://localhost:3000/savedStations', {
+        const res = await axios.get('https://electrowaystationfinder.onrender.com/savedStations', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const ids = new Set(res.data.map((s) => s.stationId));
@@ -29,11 +27,9 @@ const Listing = ({ stations, onNavigate, userPosition }) => {
     fetchSaved();
   }, []);
 
-  /* ─────────────────────────────────────────────────────────────
-     Helpers (distance calculation)
-  ─────────────────────────────────────────────────────────────── */
+ 
   const getDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Earth radius in km
+    const R = 6371;
     const toRad = (deg) => (deg * Math.PI) / 180;
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
@@ -55,7 +51,7 @@ const Listing = ({ stations, onNavigate, userPosition }) => {
 
     try {
       await axios.post(
-        'http://localhost:3000/savedStations',
+        'https://electrowaystationfinder.onrender.com/savedStations',
         {
           stationId: station.id.toString(),
           lat: station.lat,
@@ -74,9 +70,7 @@ const Listing = ({ stations, onNavigate, userPosition }) => {
     }
   };
 
-  /* ─────────────────────────────────────────────────────────────
-     Render
-  ─────────────────────────────────────────────────────────────── */
+
   return (
     <div className="p-4">
       {/* Header row */}

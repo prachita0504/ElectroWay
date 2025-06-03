@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // if you’re using React Router v6
+import { useNavigate } from "react-router-dom"; 
 
 const Signup = () => {
-  // 1) State hooks for each field + error message
+ 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  // If you want to navigate on success (e.g. to /login)
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg(""); // clear any previous error
+    setErrorMsg(""); 
 
-    // Optional: basic client‐side check before sending
+    
     if (password !== confirmPassword) {
       setErrorMsg("Passwords do not match");
       return;
@@ -25,7 +24,7 @@ const Signup = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/signup",
+        "https://electrowaystationfinder.onrender.com/signup",
         {
           email,
           username: name,
@@ -33,25 +32,23 @@ const Signup = () => {
           confirmPassword,
         },
         {
-          // withCredentials: true, // only if you’re using cookies/sessions
+          
         }
       );
 
       console.log("Signup success:", res.data);
-      // e.g. res.data.token
+     
 
-      // Redirect to /login (or wherever)
+      
       navigate("/login");
     } catch (err) {
       console.error("Signup error:", err.response || err.message);
 
-      // If your backend returns zod errors in err.response.data.error:
       if (err.response?.data?.error) {
-        // zod returns an array of { path, message }. You can map them out:
         const zodErrors = err.response.data.error.map((e) => e.message);
         setErrorMsg(zodErrors.join(". "));
       } else if (err.response?.data?.message) {
-        // General message from your route, e.g. “User already exists”
+        
         setErrorMsg(err.response.data.message);
       } else {
         setErrorMsg("Something went wrong");
